@@ -1,0 +1,69 @@
+version: '3.8'
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+    networks:
+      - net_api
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    ports:
+      - "9092:9092"
+    networks:
+      - net_api
+
+  postgres:
+    image: postgres:latest
+    container_name: backendevelop
+    environment:
+      POSTGRES_PASSWORD: desa123
+      POSTGRES_USER: desarrollo
+    volumes:
+      - D:/PROGRAMAS/DATA:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - net_api
+
+  entidadms:
+    image: entidadms:latest
+    build:
+      context: .
+      dockerfile: entidadms/dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - net_api
+    depends_on:
+      - kafka
+      - postgres
+
+  transactionms:
+    image: transactionms:latest
+    build:
+      context: .
+      dockerfile: transactionms/dockerfile
+    ports:
+      - "8180:8180"
+    networks:
+      - net_api
+    depends_on:
+      - kafka
+      - postgres
+
+networks:
+  net_api:
+    driver: bridge

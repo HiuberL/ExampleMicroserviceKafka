@@ -1,0 +1,13 @@
+# Usa una imagen base de OpenJDK
+FROM openjdk:17-jdk-slim
+# Añade un argumento para la versión de Spring Boot
+ARG JAR_FILE=entidadms/target/*.jar
+
+# Copia el archivo JAR generado en el contenedor
+COPY ${JAR_FILE} app.jar
+
+# Expone el puerto en el que se ejecutará la aplicación
+EXPOSE 8080
+
+# Define el comando para ejecutar la aplicación
+ENTRYPOINT ["java", "-jar", "/app.jar"]

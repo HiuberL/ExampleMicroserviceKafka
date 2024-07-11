@@ -1,0 +1,43 @@
+server:
+  port: 8080
+  undertow:
+    worker-threads: 20
+spring:
+  database:
+    user: desarrollo
+    pass: desa123
+    jdbcUrl: jdbc:postgresql://postgres:5432/postgres
+    driverClassName: org.postgresql.Driver
+    dbName: postgres
+    hostPort: postgres:5432
+    connTimeout: 10000
+    maxPoolSize: 20
+    minimunIdle: 1
+    idleTimeout: 10000
+    maxLifeTime: 60000
+    leakDetectionThreshold: 0
+    max-wait: 7000
+    max-active: 10
+    max-idle: 5
+    min-idle: 1
+    initial-size: 10
+    test-on-borrow: true
+    test-while-idle: true
+    validation-query: "SELECT 1"
+    validation-interval: 30000
+    connection-properties: SERVER_INITIATED_TRANSACTIONS=false
+  kafka:
+    bootstrap-servers: kafka:9092
+    consumer:
+      group-id: ms-clientes-mq
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+security:
+  basic: 
+     enabled: false
+  ignored: /**
