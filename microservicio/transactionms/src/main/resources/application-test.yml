@@ -6,10 +6,10 @@ spring:
   database:
     user: desarrollo
     pass: desa123
-    jdbcUrl: jdbc:postgresql://postgres:5432/postgres
+    jdbcUrl: jdbc:postgresql://localhost:5432/postgres
     driverClassName: org.postgresql.Driver
     dbName: postgres
-    hostPort: postgres:5432
+    hostPort: localhost:5432
     connTimeout: 10000
     maxPoolSize: 20
     minimunIdle: 1
@@ -27,7 +27,7 @@ spring:
     validation-interval: 30000
     connection-properties: SERVER_INITIATED_TRANSACTIONS=false
   kafka:
-    bootstrap-servers: kafka:9092
+    bootstrap-servers: localhost:9092
     consumer:
       group-id: ms-transaction-mq
       auto-offset-reset: earliest
